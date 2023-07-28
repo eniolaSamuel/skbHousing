@@ -1,13 +1,9 @@
 package com.SkBHousing.skbhousingapp.data.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @Entity
@@ -16,13 +12,12 @@ public class Apartment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String apartmentName;
+    @Enumerated(value = EnumType.STRING)
     private HouseGeoLocation location;
+    @Enumerated(value = EnumType.STRING)
     private HouseType apartmentType;
-    private String address;
-    private boolean isBooked = false;
+    private String apartmentAddress;
+    @Enumerated(value = EnumType.STRING)
+    private ApartmentStatus apartmentStatus;
     private BigDecimal price;
-    private String userFullName;
-    private String userPhoneNumber;
-    private LocalDate checkInTime;
-    private LocalDate checkOutTime;
 }

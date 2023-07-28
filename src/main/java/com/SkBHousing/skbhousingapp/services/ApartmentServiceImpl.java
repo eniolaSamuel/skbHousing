@@ -1,34 +1,32 @@
 package com.SkBHousing.skbhousingapp.services;
 
 import com.SkBHousing.skbhousingapp.data.models.Apartment;
-import com.SkBHousing.skbhousingapp.data.models.Booking;
+import com.SkBHousing.skbhousingapp.data.models.ApartmentStatus;
 import com.SkBHousing.skbhousingapp.data.models.HouseGeoLocation;
 import com.SkBHousing.skbhousingapp.data.models.HouseType;
 import com.SkBHousing.skbhousingapp.data.repositories.ApartmentRepository;
-import com.SkBHousing.skbhousingapp.data.repositories.BookingRepository;
-import com.SkBHousing.skbhousingapp.dtos.requests.*;
-import com.SkBHousing.skbhousingapp.dtos.responses.AdminBookedResponse;
-import com.SkBHousing.skbhousingapp.dtos.responses.BookedApartmentResponse;
-import com.SkBHousing.skbhousingapp.dtos.responses.SavedApartmentResponse;
-import com.SkBHousing.skbhousingapp.utils.ApartmentMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.SkBHousing.skbhousingapp.dtos.requests.ApartmentRegisterRequest;
+import com.SkBHousing.skbhousingapp.dtos.requests.SelectLocationAndTypeRequest;
+import com.SkBHousing.skbhousingapp.dtos.responses.SelectApartmentsResponse;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ApartmentServiceImpl implements ApartmentService {
-    private ApartmentRepository apartmentRepository ;
-    private BookingRepository bookingRepository;
-    private UserService userService;
+    private final ApartmentRepository apartmentRepository ;
+    private final ModelMapper modelMapper;
 
-    public ApartmentServiceImpl(@Autowired ApartmentRepository repository){
-        apartmentRepository = repository;
-    }
+
+//    public ApartmentServiceImpl(@Autowired ApartmentRepository repository){
+//        apartmentRepository = repository;
+//    }
 
     @Override
     public Apartment save(Apartment apartment) {
-
         return apartmentRepository.save(apartment);
     }
 
@@ -39,54 +37,23 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public SavedApartmentResponse saveNewApartment(ApartmentRegisterRequest apartmentRegisterRequest) throws IllegalAccessException {
-        //Apartment apartment = new Apartment();
-        List<Apartment> apartments = viewAllApartments();
-        for (Apartment anApartment : apartments) {
-            if (apartmentRegisterRequest.getName().equals(anApartment.getApartmentName()))
-                throw new IllegalAccessException("Apartment already exists.");
-        }
-        Apartment savedApartment = apartmentRepository.save(ApartmentMapper.mapApartmentRegister(apartmentRegisterRequest));
-        SavedApartmentResponse apartmentResponse = new SavedApartmentResponse();
-        ApartmentMapper.viewSavedApartment(savedApartment, apartmentResponse);
-        return apartmentResponse;
-    }
-    @Override
-    public BookedApartmentResponse userBookApartment(BookApartmentRequest bookApartmentRequest) throws IllegalAccessException {
-        List<Booking> bookings = viewAllBookings();
-        for (Booking booking: bookings) {
-            if (booking.isBooked()) throw new IllegalAccessException("Apartment already booked");
-        }
-        Booking booking = ApartmentMapper.mapBookApartment(bookApartmentRequest);
-        bookingRepository.save(booking);
+    public String saveNewApartment(ApartmentRegisterRequest apartmentRegisterRequest) throws IllegalAccessException {
 
-        BookedApartmentResponse bookedApartmentResponse = new BookedApartmentResponse();
-        ApartmentMapper.mapViewBookedApartment(booking, bookedApartmentResponse);
-        return bookedApartmentResponse;
-    }
+       Apartment apartment = modelMapper.map(apartmentRegisterRequest , Apartment.class);
+       Apartment apartmentInView = apartmentRepository.findApartmentByLocationAndApartmentTypeAndApartmentName
+               (apartmentRegisterRequest.getLocation(), apartmentRegisterRequest.getApartmentType(), apartmentRegisterRequest.getName());
+        if (apartmentInView != null)
+            throw new IllegalAccessException("Apartment already exists");
+        apartmentRegisterRequest.setApartmentStatus(ApartmentStatus.IS_AVAILABLE);
+        apartment.setApartmentStatus(ApartmentStatus.IS_AVAILABLE);
 
-    @Override
-    public AdminBookedResponse adminBookApartment(AdminBookingRequest adminBookingRequest) throws IllegalAccessException {
-        List<Apartment>apartments = viewAllApartments();
-        for (Apartment apartment: apartments){
-            if (apartment.isBooked()) throw new IllegalAccessException("Apartment already booked");
-        }
-        Apartment apartment = ApartmentMapper.mapAdminBooking(adminBookingRequest);
         apartmentRepository.save(apartment);
-
-        AdminBookedResponse adminBookedResponse = new AdminBookedResponse();
-        ApartmentMapper.mapViewAdminBookedApartment(apartment, adminBookedResponse);
-        return adminBookedResponse;
+        return "Apartment Successfully Registered";
     }
 
     @Override
     public List<Apartment> viewAllApartments() {
-        return ApartmentMapper.listOfApartments(apartmentRepository.findAll());
-    }
-
-    @Override
-    public List<Booking> viewAllBookings(){
-        return ApartmentMapper.listOfBookings(bookingRepository.findAll());
+        return (apartmentRepository.findAll());
     }
 
     @Override
@@ -100,7 +67,7 @@ public class ApartmentServiceImpl implements ApartmentService {
                 || apartmentType.equals(HouseType.PARTY_HOUSE);
         if (!validApartmentType)
             throw new IllegalAccessException("Apartment type selected not available, input valid apartment type");
-        return ApartmentMapper.listOfApartments(apartmentRepository.findAllByApartmentType(apartmentType));
+        return (apartmentRepository.findAllByApartmentType(apartmentType));
     }
 
     @Override
@@ -109,23 +76,34 @@ public class ApartmentServiceImpl implements ApartmentService {
                 || location.equals(HouseGeoLocation.LAGOS_MAINLAND);
         if (!validHouseGeoLocation)
             throw new IllegalAccessException("Geographic location not available, try again.");
-        return ApartmentMapper.listOfApartments(apartmentRepository.findAllByLocation(location));
+        return (apartmentRepository.findAllByLocation(location));
     }
 
     @Override
-    public List<Apartment> viewAllApartmentByHouseTypeAndHouseGeoLocation(HouseType apartmentType, HouseGeoLocation location) {
-        if (apartmentRepository.findApartmentByLocationAndApartmentType(location, apartmentType) == null)
-            throw new NullPointerException("No Apartment Matches Selection");
-        return ApartmentMapper.listOfApartments(apartmentRepository.findApartmentByLocationAndApartmentType(location, apartmentType));
+    public List<Apartment> viewAllApartmentByApartmentStatus(ApartmentStatus apartmentStatus) throws IllegalAccessException {
+        boolean availableApartments = apartmentStatus.equals(ApartmentStatus.IS_AVAILABLE);
+        if (!availableApartments) throw new IllegalAccessException("Apartment is booked at the moment");
+        return (apartmentRepository.findApartmentByApartmentStatus(apartmentStatus));
     }
 
     @Override
-    public Apartment checkIn(Apartment apartment, CheckInRequest checkInRequest) {
-        return null;
+    public SelectApartmentsResponse viewAllApartmentByHouseTypeAndHouseGeoLocationAndApartmentStatus(SelectLocationAndTypeRequest selectLocationAndTypeRequest, ApartmentStatus apartmentStatus) {
+     List<Apartment> foundApartment =   apartmentRepository.findApartmentByLocationAndApartmentTypeAndApartmentStatus(selectLocationAndTypeRequest.getLocation()
+                , selectLocationAndTypeRequest.getApartmentType(), ApartmentStatus.IS_AVAILABLE) ;
+           if (foundApartment == null) throw new NullPointerException("No Apartment Matches Selection");
+
+        SelectApartmentsResponse selectApartmentsResponse = new SelectApartmentsResponse();
+        selectApartmentsResponse.setAvailableApartment(foundApartment);
+        return selectApartmentsResponse;
     }
 
     @Override
-    public Apartment checkOut(Apartment apartment, CheckOutRequest checkOutRequest) {
-        return null;
+    public Apartment findApartmentByName(String apartmentName) {
+        return apartmentRepository.findByApartmentName(apartmentName);
+    }
+
+    @Override
+    public void deleteAll() {
+        apartmentRepository.deleteAll();
     }
 }
