@@ -57,7 +57,7 @@ public class AdminController {
     }
 
     @GetMapping("findApartmentsByType")
-    public ResponseEntity <List<Apartment>> findApartmentByTypes(HouseType houseType) throws IllegalAccessException {
+    public ResponseEntity <List<Apartment>> findApartmentByTypes(@RequestBody HouseType houseType) throws IllegalAccessException {
         log.info("This is house type {}", houseType);
         List<Apartment> allApartmentByHouseType = apartmentService.viewAllApartmentByHouseType(houseType);
         return ResponseEntity.ok(allApartmentByHouseType);
