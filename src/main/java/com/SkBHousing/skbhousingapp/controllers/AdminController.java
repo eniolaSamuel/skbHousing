@@ -2,7 +2,6 @@ package com.SkBHousing.skbhousingapp.controllers;
 
 import com.SkBHousing.skbhousingapp.data.models.*;
 import com.SkBHousing.skbhousingapp.dtos.requests.ApartmentRegisterRequest;
-import com.SkBHousing.skbhousingapp.dtos.requests.FindApartmentRequest;
 import com.SkBHousing.skbhousingapp.dtos.requests.SearchBySerialNumberRequest;
 import com.SkBHousing.skbhousingapp.dtos.requests.SelectLocationAndTypeRequest;
 import com.SkBHousing.skbhousingapp.dtos.responses.ListOfBookingsResponse;
@@ -10,7 +9,6 @@ import com.SkBHousing.skbhousingapp.dtos.responses.SelectApartmentsResponse;
 import com.SkBHousing.skbhousingapp.services.ApartmentService;
 import com.SkBHousing.skbhousingapp.services.BookingService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +18,7 @@ import java.util.List;
 @RequestMapping("api/v1/admin")
 @CrossOrigin(origins = "*")
 @AllArgsConstructor
-@Slf4j
+
 public class AdminController {
 
     private final BookingService bookingService;
@@ -58,7 +56,6 @@ public class AdminController {
 
     @GetMapping("findApartmentsByType")
     public ResponseEntity <List<Apartment>> findApartmentByTypes(@RequestBody HouseType houseType) throws IllegalAccessException {
-        log.info("This is house type {}", houseType);
         List<Apartment> allApartmentByHouseType = apartmentService.viewAllApartmentByHouseType(houseType);
         return ResponseEntity.ok(allApartmentByHouseType);
     }
