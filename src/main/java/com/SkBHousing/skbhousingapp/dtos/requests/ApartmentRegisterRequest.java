@@ -15,7 +15,7 @@ public class ApartmentRegisterRequest {
     @Enumerated(value = EnumType.STRING)
     private HouseGeoLocation location;
     @Enumerated(value = EnumType.STRING)
-    private HouseType ApartmentType;
+    private HouseType apartmentType;
     private String address;
     @Enumerated(value = EnumType.STRING)
     private ApartmentStatus apartmentStatus;
