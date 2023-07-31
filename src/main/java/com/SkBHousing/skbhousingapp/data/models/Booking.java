@@ -21,9 +21,12 @@ public class Booking {
     private LocalDate startBookDate;
     private LocalDate endBookDate;
     private String bookingSerialNumber;
+    private String apartmentSerialNumber;
     private BigDecimal price;
     @Enumerated(value = EnumType.STRING)
     private ApartmentStatus apartmentStatus;
     @Enumerated(value = EnumType.STRING)
     private Payment_Status paymentStatus;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Clocking clocking;
 }

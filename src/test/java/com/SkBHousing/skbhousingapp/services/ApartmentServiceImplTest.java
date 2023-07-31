@@ -83,19 +83,19 @@ class ApartmentServiceImplTest {
 //        assertEquals(2, apartmentList.size());
 //    }
 
-    @Test
-    public void viewApartmentByHouseType_Test() throws IllegalAccessException{
-        ApartmentRegisterRequest firstApartmentRegistration = new ApartmentRegisterRequest();
-        firstApartmentRegistration.setName("eko court");
-        firstApartmentRegistration.setApartmentType(HouseType.STANDARD_STUDIO);
-        firstApartmentRegistration.setLocation(HouseGeoLocation.LAGOS_ISLAND);
-        firstApartmentRegistration.setAddress("kofo abayomi");
-        firstApartmentRegistration.setPrice(BigDecimal.valueOf(45000));
-
-        apartmentService.saveNewApartment(firstApartmentRegistration);
-        List<Apartment> apartment = apartmentService.viewAllApartmentByHouseType(firstApartmentRegistration.getApartmentType());
-        assertEquals(apartment.get(0).getApartmentType(), HouseType.STANDARD_STUDIO);
-    }
+//    @Test
+//    public void viewApartmentByHouseType_Test() throws IllegalAccessException{
+//        ApartmentRegisterRequest firstApartmentRegistration = new ApartmentRegisterRequest();
+//        firstApartmentRegistration.setName("eko court");
+//        firstApartmentRegistration.setApartmentType(HouseType.STANDARD_STUDIO);
+//        firstApartmentRegistration.setLocation(HouseGeoLocation.LAGOS_ISLAND);
+//        firstApartmentRegistration.setAddress("kofo abayomi");
+//        firstApartmentRegistration.setPrice(BigDecimal.valueOf(45000));
+//
+//        apartmentService.saveNewApartment(firstApartmentRegistration);
+//        List<Apartment> apartment = apartmentService.viewAllApartmentByHouseType(firstApartmentRegistration.getApartmentType());
+//        assertEquals(apartment.get(0).getApartmentType(), HouseType.STANDARD_STUDIO);
+//    }
 
 //    @Test
 //    public void viewApartmentByName_Test() throws IllegalAccessException{

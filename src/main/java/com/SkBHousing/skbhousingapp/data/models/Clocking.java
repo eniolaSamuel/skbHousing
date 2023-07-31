@@ -12,6 +12,7 @@ public class Clocking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clockingId;
+    private String phoneNumber;
     private LocalDateTime clockIn;
     private LocalDateTime clockOut;
     @Enumerated(EnumType.STRING)

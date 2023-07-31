@@ -2,9 +2,7 @@ package com.SkBHousing.skbhousingapp.services;
 
 import com.SkBHousing.skbhousingapp.data.models.*;
 import com.SkBHousing.skbhousingapp.data.repositories.AdminRepository;
-import com.SkBHousing.skbhousingapp.dtos.requests.ApartmentRegisterRequest;
-import com.SkBHousing.skbhousingapp.dtos.requests.RegisterAdminRequest;
-import com.SkBHousing.skbhousingapp.dtos.requests.SelectLocationAndTypeRequest;
+import com.SkBHousing.skbhousingapp.dtos.requests.*;
 import com.SkBHousing.skbhousingapp.dtos.responses.SelectApartmentsResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -52,12 +50,12 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public List<Apartment> viewAllApartmentByHouseType(HouseType apartmentType) throws IllegalAccessException {
+    public List<Apartment> viewAllApartmentByHouseType(FindApartmentByTypeRequest apartmentType) throws IllegalAccessException {
         return apartmentService.viewAllApartmentByHouseType(apartmentType);
     }
 
     @Override
-    public List<Apartment> viewAllApartmentByHouseGeoLocation(HouseGeoLocation location) throws IllegalAccessException {
+    public List<Apartment> viewAllApartmentByHouseGeoLocation(FindApartmentByLocationRequest location) throws IllegalAccessException {
         return apartmentService.viewAllApartmentByHouseGeoLocation(location);
     }
 
@@ -88,7 +86,7 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Booking findByBookingSerialNumber(String bookingSerialNumber) {
-        return null;
+        return bookingService.viewBookingByBookingSerialNumber(bookingSerialNumber);
     }
 
 }

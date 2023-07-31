@@ -1,4 +1,5 @@
 package com.SkBHousing.skbhousingapp.services;
+import com.SkBHousing.skbhousingapp.data.models.ApartmentStatus;
 import com.SkBHousing.skbhousingapp.data.models.Booking;
 import com.SkBHousing.skbhousingapp.dtos.requests.BookApartmentRequest;
 import com.SkBHousing.skbhousingapp.dtos.responses.BookedApartmentResponse;
@@ -12,6 +13,8 @@ public interface BookingService {
     Booking viewBookingByBookingSerialNumber(String bookingSerialNumber);
     BookedApartmentResponse userBookApartment(BookApartmentRequest bookApartmentRequest);
     String generateBookingSerialNumber();
+
+    Booking findBookingByCustomerPhoneNumberAndApartmentStatus (String customerPhoneNumber, ApartmentStatus isBooked);
 
     void deleteAll();
 }

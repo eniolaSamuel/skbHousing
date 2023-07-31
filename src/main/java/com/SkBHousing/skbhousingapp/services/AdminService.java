@@ -1,9 +1,7 @@
 package com.SkBHousing.skbhousingapp.services;
 
 import com.SkBHousing.skbhousingapp.data.models.*;
-import com.SkBHousing.skbhousingapp.dtos.requests.ApartmentRegisterRequest;
-import com.SkBHousing.skbhousingapp.dtos.requests.RegisterAdminRequest;
-import com.SkBHousing.skbhousingapp.dtos.requests.SelectLocationAndTypeRequest;
+import com.SkBHousing.skbhousingapp.dtos.requests.*;
 import com.SkBHousing.skbhousingapp.dtos.responses.SelectApartmentsResponse;
 
 import java.util.List;
@@ -15,8 +13,8 @@ public interface AdminService {
     String saveNewApartment(ApartmentRegisterRequest apartmentRegisterRequest) throws IllegalAccessException;
     List<Booking> viewAllBookings();
     List<Apartment> viewAllApartments();
-    List <Apartment> viewAllApartmentByHouseType(HouseType apartmentType) throws IllegalAccessException;
-    List <Apartment> viewAllApartmentByHouseGeoLocation(HouseGeoLocation location) throws IllegalAccessException;
+    List <Apartment> viewAllApartmentByHouseType(FindApartmentByTypeRequest apartmentType) throws IllegalAccessException;
+    List <Apartment> viewAllApartmentByHouseGeoLocation(FindApartmentByLocationRequest location) throws IllegalAccessException;
     List <Apartment> viewAllApartmentByApartmentStatus(ApartmentStatus apartmentStatus) throws IllegalAccessException;
     SelectApartmentsResponse viewAllApartmentByHouseTypeAndHouseGeoLocationAndApartmentStatus(SelectLocationAndTypeRequest selectLocationAndTypeRequest , ApartmentStatus apartmentStatus);
     Apartment findApartmentByName (String apartmentName);

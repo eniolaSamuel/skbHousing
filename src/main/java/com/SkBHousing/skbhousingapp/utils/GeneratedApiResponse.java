@@ -1,5 +1,6 @@
-package com.SkBHousing.skbhousingapp.dtos.responses;
+package com.SkBHousing.skbhousingapp.utils;
 
+import com.SkBHousing.skbhousingapp.utils.ApiResponse;
 import org.springframework.http.HttpStatus;
 
 public class GeneratedApiResponse {

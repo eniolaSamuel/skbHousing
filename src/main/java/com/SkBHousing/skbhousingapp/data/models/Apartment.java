@@ -11,6 +11,7 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String apartmentSerialNumber;
     private String apartmentName;
     @Enumerated(value = EnumType.STRING)
     private HouseGeoLocation location;

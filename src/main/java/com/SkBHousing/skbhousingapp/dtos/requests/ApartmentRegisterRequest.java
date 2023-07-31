@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @Data
 public class ApartmentRegisterRequest {
     private String name;
+    private String apartmentSerialNumber;
     @Enumerated(value = EnumType.STRING)
     private HouseGeoLocation location;
     @Enumerated(value = EnumType.STRING)

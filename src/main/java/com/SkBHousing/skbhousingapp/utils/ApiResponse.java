@@ -1,4 +1,4 @@
-package com.SkBHousing.skbhousingapp.dtos.responses;
+package com.SkBHousing.skbhousingapp.utils;
 
 import lombok.Builder;
 import lombok.Getter;

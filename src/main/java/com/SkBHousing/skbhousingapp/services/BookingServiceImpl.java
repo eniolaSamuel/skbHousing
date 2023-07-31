@@ -9,6 +9,7 @@ import com.SkBHousing.skbhousingapp.dtos.requests.BookApartmentRequest;
 import com.SkBHousing.skbhousingapp.dtos.responses.BookedApartmentResponse;
 import com.SkBHousing.skbhousingapp.utils.BookingMapper;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,6 +24,8 @@ public class BookingServiceImpl implements BookingService {
 
     public final ApartmentService apartmentService;
     private final BookingRepository bookingRepository;
+
+    private final ModelMapper modelMapper;
 
 
 
@@ -52,16 +55,18 @@ public class BookingServiceImpl implements BookingService {
     public BookedApartmentResponse userBookApartment(BookApartmentRequest bookApartmentRequest)  {
 
         bookApartmentRequest.setBookingSerialNumber(generateBookingSerialNumber());
-        Booking booking = BookingMapper.mapBookApartment(bookApartmentRequest);
+        Booking booking = modelMapper.map(bookApartmentRequest, Booking.class);
         booking.setBookingSerialNumber(bookApartmentRequest.getBookingSerialNumber());
         booking.setApartmentStatus(ApartmentStatus.IS_BOOKED);
         Apartment chosenApartment = bookApartmentRequest.getSelectedApartment();
+        booking.setApartmentSerialNumber(chosenApartment.getApartmentSerialNumber());
         booking.setApartmentName(chosenApartment.getApartmentName());
         booking.setApartmentType(chosenApartment.getApartmentType());
         booking.setApartmentAddress(chosenApartment.getApartmentAddress());
         booking.setLocation(chosenApartment.getLocation());
         booking.setPrice(calculatedPayment(bookApartmentRequest));
         booking.setPaymentStatus(Payment_Status.PENDING);
+
         chosenApartment.setApartmentStatus(ApartmentStatus.IS_BOOKED);
         bookingRepository.save(booking);
         apartmentService.save(chosenApartment);
@@ -92,6 +97,11 @@ public class BookingServiceImpl implements BookingService {
         int bookingSerialNumber = random.nextInt(100000000, 900000000);
 
         return "#" + bookingSerialNumber;
+    }
+
+    @Override
+    public Booking findBookingByCustomerPhoneNumberAndApartmentStatus(String customerPhoneNumber, ApartmentStatus isBooked) {
+        return bookingRepository.findByUserPhoneNumberAndApartmentStatus(customerPhoneNumber, ApartmentStatus.IS_BOOKED);
     }
 
     @Override
