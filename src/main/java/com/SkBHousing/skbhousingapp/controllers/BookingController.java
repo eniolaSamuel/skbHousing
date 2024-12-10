@@ -19,7 +19,6 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    // Endpoint to create a new booking
     @PostMapping("/book")
     public ResponseEntity<BookedApartmentResponse> bookApartment(@RequestBody BookApartmentRequest bookApartmentRequest) {
         BookedApartmentResponse response = bookingService.userBookApartment(bookApartmentRequest);
