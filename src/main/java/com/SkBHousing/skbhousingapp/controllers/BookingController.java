@@ -40,3 +40,9 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
 
+    //cancel a booking
+    @DeleteMapping("/cancel/{bookingSerialNumber}")
+    public ResponseEntity<String> cancelBooking(@PathVariable String bookingSerialNumber) {
+        String response = bookingService.cancelBooking(bookingSerialNumber);
+        return ResponseEntity.ok(response);
+    }
