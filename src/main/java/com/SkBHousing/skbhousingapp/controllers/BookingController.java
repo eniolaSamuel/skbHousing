@@ -46,3 +46,12 @@ public class BookingController {
         String response = bookingService.cancelBooking(bookingSerialNumber);
         return ResponseEntity.ok(response);
     }
+
+    //find booking by customer phone number and status
+    @GetMapping("/find")
+    public ResponseEntity<Booking> findBookingByPhoneNumberAndStatus(@RequestParam String customerPhoneNumber,
+                                                                     @RequestParam ApartmentStatus status) {
+        Booking booking = bookingService.findBookingByCustomerPhoneNumberAndApartmentStatus(customerPhoneNumber, status);
+        return ResponseEntity.ok(booking);
+    }
+
