@@ -25,3 +25,10 @@ public class BookingController {
         BookedApartmentResponse response = bookingService.userBookApartment(bookApartmentRequest);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Booking>> getAllBookings() {
+        List<Booking> bookings = bookingService.viewAllBookings();
+        return ResponseEntity.ok(bookings);
+    }
