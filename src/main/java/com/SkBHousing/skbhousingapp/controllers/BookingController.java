@@ -19,13 +19,14 @@ public class BookingController {
 
     private final BookingService bookingService;
 
+    //book
     @PostMapping("/book")
     public ResponseEntity<BookedApartmentResponse> bookApartment(@RequestBody BookApartmentRequest bookApartmentRequest) {
         BookedApartmentResponse response = bookingService.userBookApartment(bookApartmentRequest);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-
+    //list of all bookings
     @GetMapping("/all")
     public ResponseEntity<List<Booking>> getAllBookings() {
         List<Booking> bookings = bookingService.viewAllBookings();
@@ -38,3 +39,4 @@ public class BookingController {
         Booking booking = bookingService.viewBookingByBookingSerialNumber(bookingSerialNumber);
         return ResponseEntity.ok(booking);
     }
+
