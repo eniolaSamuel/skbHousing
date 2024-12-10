@@ -31,3 +31,10 @@ public class BookingController {
         List<Booking> bookings = bookingService.viewAllBookings();
         return ResponseEntity.ok(bookings);
     }
+
+    //booking by serial number
+    @GetMapping("/{bookingSerialNumber}")
+    public ResponseEntity<Booking> getBookingBySerialNumber(@PathVariable String bookingSerialNumber) {
+        Booking booking = bookingService.viewBookingByBookingSerialNumber(bookingSerialNumber);
+        return ResponseEntity.ok(booking);
+    }
