@@ -66,10 +66,14 @@ public class ClockingServiceImpl implements ClockingService{
         return clockingRepository.save(clocking);
     }
 
-    private Clocking buildClockOutRecord(String customerPhoneNumber){
-        Clocking clocking = new Clocking();
+    private Clocking buildClockOutRecord(String customerPhoneNumber) {
+        Clocking clocking = clockingRepository.findByPhoneNumberAndClockingStatus(customerPhoneNumber, Clocking_Status.IN_PROGRESS);
+        if (clocking == null) {
+            throw new IllegalStateException("No active clock-in record found for clock-out.");
+        }
         clocking.setClockOut(LocalDateTime.now());
         clocking.setClockingStatus(Clocking_Status.COMPLETED);
         return clockingRepository.save(clocking);
     }
+
 }
