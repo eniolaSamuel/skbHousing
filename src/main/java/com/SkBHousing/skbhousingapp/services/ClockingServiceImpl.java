@@ -102,7 +102,7 @@ public class ClockingServiceImpl implements ClockingService {
         return clockingRepository.save(clocking);
     }
 
-    // Custom Exceptions
+
     public static class InvalidBookingException extends RuntimeException {
         public InvalidBookingException(String message) {
             super(message);
