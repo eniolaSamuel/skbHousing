@@ -22,3 +22,14 @@ public class ClockingController {
  * @param userPhoneNumber Phone number of the user attempting to clock in.
  * @return ApiResponse indicating the result of the clock-in attempt.
  */
+
+@PostMapping("/clock-in")
+public ApiResponse clockIn(@RequestParam String userPhoneNumber) {
+    logger.info("Received clock-in request for phone number: {}", userPhoneNumber);
+    try {
+        return clockingService.clockIn(userPhoneNumber);
+    } catch (Exception e) {
+        logger.error("Error during clock-in for phone number: {}", userPhoneNumber, e);
+        return ApiResponse.errorResponse("Clock-in failed: " + e.getMessage());
+    }
+}
