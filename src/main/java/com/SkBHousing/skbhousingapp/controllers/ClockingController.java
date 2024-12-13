@@ -57,3 +57,10 @@ public class ClockingController {
      * @param userPhoneNumber Phone number of the user for whom history is being saved.
      * @return ApiResponse indicating the current state of the feature.
      */
+
+    @GetMapping("/history")
+    public ApiResponse saveClockHistory(@RequestParam String userPhoneNumber) {
+        logger.info("Fetching clocking history for phone number: {}", userPhoneNumber);
+        return clockingService.saveClockHistory(userPhoneNumber);
+    }
+}
