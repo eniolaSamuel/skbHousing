@@ -46,12 +46,7 @@ public class ClockingController {
         }
     }
 
-    /**
-     * Endpoint for saving clocking history (future implementation).
-     *
-     * @param userPhoneNumber Phone number of the user for whom history is being saved.
-     * @return ApiResponse indicating the current state of the feature.
-     */
+
 
     @GetMapping("/history")
     public ApiResponse saveClockHistory(@RequestParam String userPhoneNumber) {
