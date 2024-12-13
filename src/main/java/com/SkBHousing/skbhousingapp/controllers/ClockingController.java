@@ -50,3 +50,10 @@ public class ClockingController {
             return ApiResponse.errorResponse("Clock-out failed: " + e.getMessage());
         }
     }
+
+    /**
+     * Endpoint for saving clocking history (future implementation).
+     *
+     * @param userPhoneNumber Phone number of the user for whom history is being saved.
+     * @return ApiResponse indicating the current state of the feature.
+     */
