@@ -14,4 +14,5 @@ public class ApiResponse {
     private HttpStatus httpStatus;
     private int statusCode;
     private boolean isSuccessful;
+    
 }

@@ -16,20 +16,37 @@ public class ClockingController {
     private final ClockingService clockingService;
     private static final Logger logger = LoggerFactory.getLogger(ClockingController.class);
 
-/**
- * Endpoint for clocking in a user.
- *
- * @param userPhoneNumber Phone number of the user attempting to clock in.
- * @return ApiResponse indicating the result of the clock-in attempt.
- */
+    /**
+     * Endpoint for clocking in a user.
+     *
+     * @param userPhoneNumber Phone number of the user attempting to clock in.
+     * @return ApiResponse indicating the result of the clock-in attempt.
+     */
 
-@PostMapping("/clock-in")
-public ApiResponse clockIn(@RequestParam String userPhoneNumber) {
-    logger.info("Received clock-in request for phone number: {}", userPhoneNumber);
-    try {
-        return clockingService.clockIn(userPhoneNumber);
-    } catch (Exception e) {
-        logger.error("Error during clock-in for phone number: {}", userPhoneNumber, e);
-        return ApiResponse.errorResponse("Clock-in failed: " + e.getMessage());
+    @PostMapping("/clock-in")
+    public ApiResponse clockIn(@RequestParam String userPhoneNumber) {
+        logger.info("Received clock-in request for phone number: {}", userPhoneNumber);
+        try {
+            return clockingService.clockIn(userPhoneNumber);
+        } catch (Exception e) {
+            logger.error("Error during clock-in for phone number: {}", userPhoneNumber, e);
+            return ApiResponse.errorResponse("Clock-in failed: " + e.getMessage());
+        }
     }
-}
+
+    /**
+     * Endpoint for clocking out a user.
+     *
+     * @param userPhoneNumber Phone number of the user attempting to clock out.
+     * @return ApiResponse indicating the result of the clock-out attempt.
+     */
+    @PostMapping("/clock-out")
+    public ApiResponse clockOut(@RequestParam String userPhoneNumber) {
+        logger.info("Received clock-out request for phone number: {}", userPhoneNumber);
+        try {
+            return clockingService.clockOut(userPhoneNumber);
+        } catch (Exception e) {
+            logger.error("Error during clock-out for phone number: {}", userPhoneNumber, e);
+            return ApiResponse.errorResponse("Clock-out failed: " + e.getMessage());
+        }
+    }
