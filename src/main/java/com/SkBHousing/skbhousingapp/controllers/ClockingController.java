@@ -34,12 +34,7 @@ public class ClockingController {
         }
     }
 
-    /**
-     * Endpoint for clocking out a user.
-     *
-     * @param userPhoneNumber Phone number of the user attempting to clock out.
-     * @return ApiResponse indicating the result of the clock-out attempt.
-     */
+
     @PostMapping("/clock-out")
     public ApiResponse clockOut(@RequestParam String userPhoneNumber) {
         logger.info("Received clock-out request for phone number: {}", userPhoneNumber);
