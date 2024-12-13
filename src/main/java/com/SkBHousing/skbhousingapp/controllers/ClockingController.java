@@ -16,12 +16,6 @@ public class ClockingController {
     private final ClockingService clockingService;
     private static final Logger logger = LoggerFactory.getLogger(ClockingController.class);
 
-    /**
-     * Endpoint for clocking in a user.
-     *
-     * @param userPhoneNumber Phone number of the user attempting to clock in.
-     * @return ApiResponse indicating the result of the clock-in attempt.
-     */
 
     @PostMapping("/clock-in")
     public ApiResponse clockIn(@RequestParam String userPhoneNumber) {
