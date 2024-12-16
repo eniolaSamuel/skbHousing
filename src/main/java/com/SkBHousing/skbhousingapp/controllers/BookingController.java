@@ -33,7 +33,7 @@ public class BookingController {
         return ResponseEntity.ok(bookings);
     }
 
-    //booking by serial number
+
     @GetMapping("/{bookingSerialNumber}")
     public ResponseEntity<Booking> getBookingBySerialNumber(@PathVariable String bookingSerialNumber) {
         Booking booking = bookingService.viewBookingByBookingSerialNumber(bookingSerialNumber);
