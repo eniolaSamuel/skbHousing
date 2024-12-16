@@ -47,7 +47,7 @@ public class BookingController {
         return ResponseEntity.ok(response);
     }
 
-    //find booking by customer phone number and status
+    //find booking by
     @GetMapping("/find")
     public ResponseEntity<Booking> findBookingByPhoneNumberAndStatus(@RequestParam String customerPhoneNumber,
                                                                      @RequestParam ApartmentStatus status) {
