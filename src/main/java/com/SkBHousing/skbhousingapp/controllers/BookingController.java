@@ -19,7 +19,7 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    //book
+
     @PostMapping("/book")
     public ResponseEntity<BookedApartmentResponse> bookApartment(@RequestBody BookApartmentRequest bookApartmentRequest) {
         BookedApartmentResponse response = bookingService.userBookApartment(bookApartmentRequest);
