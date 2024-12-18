@@ -55,7 +55,7 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
 
-    //delete all bookings
+    //delete all
     @DeleteMapping("/delete-all")
     public ResponseEntity<String> deleteAllBookings() {
         bookingService.deleteAll();
